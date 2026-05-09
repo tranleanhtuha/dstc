@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="vi">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Đăng Ký Làm Chủ Nhật</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Lao:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --primary-hover: #1d4ed8;
+            --bg-gradient: linear-gradient(135deg, #f0f4f8 0%, #d9e2ec 100%);
+            --text-dark: #1e293b;
+            --text-muted: #64748b;
+            --white: #ffffff;
+            --border-color: #cbd5e1;
+            --input-bg: #f8fafc;
+        }
+
+        body { 
+            font-family: 'Inter', 'Noto Sans Lao', sans-serif; 
+            background: var(--bg-gradient); 
+            margin: 0;
+            display: flex; 
+            justify-content: center; 
+            align-items: center;
+            min-height: 100vh;
+            color: var(--text-dark);
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .form-container { 
+            background: var(--white); 
+            padding: 40px 35px; 
+            border-radius: 24px; 
+            box-shadow: 0 10px 40px -10px rgba(37, 99, 235, 0.15); 
+            width: 100%; 
+            max-width: 480px; 
+            box-sizing: border-box;
+            position: relative;
+        }
+
+        .lang-switch {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #eff6ff;
+            border: 1px solid rgba(37, 99, 235, 0.2);
+            border-radius: 12px;
+            padding: 6px;
+            display: flex;
+            gap: 4px;
+        }
+
+        .btn-lang {
+            background: transparent;
+            border: none;
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.2s;
+            margin: 0;
+            width: auto;
+            box-shadow: none;
+        }
+
+        .btn-lang.active {
+            background: var(--primary-color);
+            color: white;
+            box-shadow: 0 2px 6px rgba(37, 99, 235, 0.2);
+        }
+
+        .header-section {
+            text-align: center;
+            margin-bottom: 30px;
+            margin-top: 20px;
+        }
+
+        .header-icon {
+            font-size: 44px;
+            margin-bottom: 12px;
+            display: inline-block;
+            background: #eff6ff;
+            padding: 15px;
+            border-radius: 20px;
+            box-shadow: 0 4px 10px rgba(37, 99, 235, 0.05);
+        }
+
+        h2 { 
+            color: var(--text-dark); 
+            margin: 0; 
+            font-weight: 700;
+            font-size: 24px;
+            letter-spacing: -0.5px;
+        }
+
+        .header-subtitle {
+            color: var(--text-muted);
+            font-size: 14px;
+            margin-top: 8px;
+            line-height: 1.4;
+        }
+
+        .form-group { margin-bottom: 25px; }
+
+        label { 
+            display: flex; 
+            align-items: center;
+            margin-bottom: 10px; 
+            font-weight: 600; 
+            color: var(--text-dark);
+            font-size: 14px;
+        }
+        
+        label i { margin-right: 8px; font-style: normal; }
+
+        /* CSS SELECT2 CŨ */
+        .select2-container--default .select2-selection--single {
+            height: auto !important;
+            min-height: 52px !important;
+            border: 1.5px solid var(--border-color) !important;
+            border-radius: 12px !important;
+            background-color: var(--input-bg);
+            box-sizing: border-box !important;
+            position: relative !important;
+            display: flex !important; 
+            align-items: center !important;
+        }
+
+        .select2-container--default .select2-selection--single:focus,
+        .select2-container--open .select2-selection--single {
+            border-color: var(--primary-color) !important;
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+            background-color: var(--white);
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__rendered { 
+            display: block !important; 
+            width: 100% !important;
+            padding-left: 16px !important;
+            padding-right: 60px !important; 
+            padding-top: 8px !important;
+            padding-bottom: 8px !important;
+            color: var(--text-dark) !important;
+            box-sizing: border-box !important;
+            white-space: normal !important; 
+            word-wrap: break-word !important;
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__placeholder {
+            color: #94a3b8 !important;
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__clear {
+            position: absolute !important;
+            right: 36px !important; 
+            top: 50% !important;
+            transform: translateY(-50%) !important;
+            z-index: 10 !important;
+            color: #94a3b8 !important;
+            font-size: 22px !important;
+            background: transparent !important; 
+            margin: 0 !important;
+            cursor: pointer;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__arrow {
+            position: absolute !important;
+            right: 14px !important; 
+            top: 50% !important;
+            transform: translateY(-50%) !important;
+            height: auto !important;
+        }
+
+        .employee-option {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 4px;
+            gap: 10px;
+        }
+        
+        .employee-name {
+            font-weight: 500;
+            color: var(--text-dark);
+            font-size: 15px;
+            line-height: 1.4;
+        }
+
+        .employee-id-badge {
+            font-size: 12px;
+            font-weight: 600;
+            color: #475569;
+            background-color: #e2e8f0;
+            padding: 4px 10px;
+            border-radius: 20px;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .employee-selected {
+            display: flex !important;
+            flex-wrap: wrap !important; 
+            align-items: center !important;
+            width: 100% !important;
+            gap: 6px 12px; 
+        }
+
+        .employee-selected .name {
+            font-weight: 600;
+            font-size: 15px;
+            color: var(--primary-color);
+            text-align: left;
+        }
+
+        .employee-selected .id-text {
+            background-color: #eff6ff !important;
+            color: var(--primary-color) !important;
+            border: 1px solid rgba(37, 99, 235, 0.2);
+            padding: 3px 8px !important;
+            border-radius: 6px !important;
+            font-size: 12px !important;
+            font-weight: 700 !important;
+            white-space: nowrap !important;
+        }
+
+        input[type="date"] { 
+            width: 100%; 
+            height: 52px; 
+            padding: 0 16px; 
+            border: 1.5px solid var(--border-color); 
+            border-radius: 12px; 
+            box-sizing: border-box; 
+            font-size: 15px;
+            font-weight: 500;
+            font-family: inherit;
+            color: var(--text-dark);
+            outline: none;
+            transition: all 0.2s ease;
+            background-color: var(--input-bg);
+            cursor: pointer;
+        }
+
+        input[type="date"]:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+            background-color: var(--white);
+        }
+
+        .submit-btn { 
+            width: 100%; 
+            padding: 16px; 
+            background-color: var(--primary-color); 
+            color: white; 
+            border: none; 
+            border-radius: 12px; 
+            cursor: pointer; 
+            font-size: 16px; 
+            font-weight: 600; 
+            font-family: inherit;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+        }
+
+        .submit-btn:hover { 
+            background-color: var(--primary-hover); 
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(37, 99, 235, 0.3);
+        }
+
+        .submit-btn:active { transform: translateY(0); }
+
+        .submit-btn:disabled {
+            background-color: #94a3b8;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .hint { 
+            font-size: 13px; 
+            color: #475569; 
+            margin-top: 12px; 
+            display: flex;
+            align-items: center;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            padding: 12px 14px;
+            border-radius: 10px;
+            line-height: 1.4;
+        }
+        
+        .hint::before {
+            content: "💡";
+            margin-right: 10px;
+            font-size: 18px;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 480px) {
+            .form-container {
+                padding: 30px 20px;
+                border-radius: 20px;
+            }
+            
+            h2 { font-size: 20px; }
+            
+            .header-icon {
+                font-size: 36px;
+                padding: 12px;
+            }
+
+            .lang-switch {
+                top: 15px;
+                right: 15px;
+            }
+
+            .select2-container--default .select2-selection--single .select2-selection__rendered {
+                font-size: 14px;
+            }
+
+            .employee-selected .name { font-size: 14px; }
+            .employee-selected .id-text { font-size: 11px; }
+            
+            .hint { font-size: 12px; }
+            .submit-btn { font-size: 15px; padding: 14px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="form-container">
+    <div class="lang-switch">
+        <button class="btn-lang active" data-lang="vi">VN</button>
+        <button class="btn-lang" data-lang="la">LA</button>
+    </div>
+
+    <div class="header-section">
+        <div class="header-icon">📅</div>
+        <h2 data-i18n="title">Đăng Ký Làm Chủ nhật</h2>
+        <div class="header-subtitle" data-i18n="subtitle">Vui lòng điền thông tin </div>
+    </div>
+    
+    <form id="registrationForm">
+        
+        <div class="form-group">
+            <label><i>👤</i> <span data-i18n="employee_label">Nhân viên thực hiện</span></label>
+            <select id="employeeSelect" name="employee" required>
+                <option value=""></option> 
+                <!-- Danh sách từ Ảnh 1 -->
+                <option value="2207995">Phaengsomphan Mouksup - MSNV: 2207995</option>
+                <option value="2109148">Phutthivong Chanthavong - MSNV: 2109148</option>
+                <option value="26030275">Trần Lê Anh - MSNV: 26030275</option>
+                <option value="Trống">Nguyễn Tấn Trúc - MSNV: 26051677</option>
+                <option value="2208953">Vũ Văn Dưỡng - MSNV: 2208953</option>
+                <option value="2207986">Vũ Văn Lực - MSNV: 2207986</option>
+                <option value="22071689">Trần Minh Công - MSNV: 22071689</option>
+                <option value="2303618">Nguyễn Hoàng - MSNV: 2303618</option>
+                <option value="2306801">Hồ Văn Ót - MSNV: 2306801</option>
+                <option value="2109203">Sengaloun Vongdangoi - MSNV: 2109203</option>
+                <option value="2003473">Nguyễn Hữu Lực - MSNV: 2003473</option>
+                <option value="2210786">Phoudsavanh Keobuonthayvong - MSNV: 2210786</option>
+                <option value="1912414">Nguyễn Văn Hoài - MSNV: 1912414</option>
+                <option value="2402736">Trần Ánh Sao - MSNV: 2402736</option>
+                <option value="24031437">Trần Đức Hào - MSNV: 24031437</option>
+                <option value="23051689">Từ Bá Dự - MSNV: 23051689</option>
+                <option value="2206747">Boun Paserth VongDangoi - MSNV: 2206747</option>
+                <option value="2406439">Komang Phommachan - MSNV: 2406439</option>
+                <option value="2301322">Vũ Văn Duy - MSNV: 2301322</option>
+                <option value="0905020">Lê Đức Vinh - MSNV: 0905020</option>
+                <option value="2406441">Lar Chanthamarth - MSNV: 2406441</option>
+                <option value="22091698">Vũ Văn Phương - MSNV: 22091698</option>
+                <option value="22091737">Phạm Văn Yên - MSNV: 22091737</option>
+                <option value="03040001">Yom Xaiyalam - MSNV: 03040001</option>
+                <option value="25071129">Phoukhanh Sodthisan - MSNV: 25071129</option>
+                <option value="25081553">Soukdavee Chanthakhod - MSNV: 25081553</option>
+                <option value="2211427">Nguyễn Văn Nhật - MSNV: 2211427</option>
+                <option value="25083076">Nguyễn Xuân Chung - MSNV: 25083076</option>
+                <option value="25087129">Đỗ Ngọc Anh - MSNV: 25087129</option>
+                <option value="25092054">Keo Butsaykhe - MSNV: 25092054</option>
+                <option value="22091066">Trần Minh Tân - MSNV: 22091066</option>
+                <option value="25103297">Souksavanh Buasisavanh - MSNV: 25103297</option>
+                <option value="25103529">Banphot Norongkeo - MSNV: 25103529</option>
+                <option value="25106275">Xaiy Keophan - MSNV: 25106275</option>
+                <option value="25106273">Kee Natsoulivong - MSNV: 25106273</option>
+                <option value="25113321">Somsak Leuaymixay - MSNV: 25113321</option>
+                <option value="25024096">Keomixay Vongsakhone - MSNV: 25024096</option>
+                <option value="23121432">Xai - MSNV: 23121432</option>
+                <option value="25022060">Trần Quốc Tuấn - MSNV: 25022060</option>
+                <option value="2201514">Suokmun Vanhnayuen - MSNV: 2201514</option>
+                <option value="25120207">Sophan Xeamad - MSNV: 25120207</option>
+                <option value="25120215">Taiy Vongsamlan - MSNV: 25120215</option>
+                <option value="25032404">Meexay Boubphaphun - MSNV: 25032404</option>
+                <option value="25121816">Sin - MSNV: 25121816</option>
+                <option value="25121797">Sun - MSNV: 25121797</option>
+                <option value="25121793">Somkhit - MSNV: 25121793</option>
+                <option value="25123264">Trần Văn Thao - MSNV: 25123264</option>
+                <option value="26011292">Hatsady Chanthakhon - MSNV: 26011292</option>
+                <option value="26011293">Khamxem Xayyalex - MSNV: 26011293</option>
+                <option value="26012953">Khaison Phammavong - MSNV: 26012953</option>
+                <option value="26013258">Boksaengxay - MSNV: 26013258</option>
+                <option value="26013314">Baysy Kounlavong - MSNV: 26013314</option>
+                <option value="26020863">Subannakhone Chummanythog - MSNV: 26020863</option>
+                <option value="2309232">Thipsa Xayvienthong - MSNV: 2309232</option>
+                <option value="26021299">Buonnan Sisomphan - MSNV: 26021299</option>
+                <option value="26034219">Khamler - MSNV: 26034219</option>
+                <option value="26034250">Buonnoy Keobuonta - MSNV: 26034250</option>
+                <option value="26041489">Kadam - MSNV: 26041489</option>
+                <option value="26041493">Trần Quang Tây - MSNV: 26041493</option>
+                <option value="26045644">Lê Đình Nhật - MSNV: 26045644</option>
+                <option value="26047938">Xaiphone Chanthvong - MSNV: 26047938</option>
+                <option value="Trống">Koiy Suoktivong - MSNV: Trống</option>
+                <option value="Trống">Kaet Xayyavong - MSNV: Trống</option>
+
+                <!-- Danh sách từ Ảnh 2 -->
+                <option value="2311137">Đoàn Ngọc Thọ - MSNV: 2311137</option>
+                <option value="24061001">Lê Công Hữu - MSNV: 24061001</option>
+                <option value="2210421">Nguyễn Hữu Trình - MSNV: 2210421</option>
+                <option value="2212015">Phạm Đức Hoài - MSNV: 2212015</option>
+                <option value="26030264">Đào Trần Dương - MSNV: 26030264</option>
+                <option value="25062868">Lê Minh Hiếu - MSNV: 25062868</option>
+                <option value="25033587">Nguyễn Văn Thịnh - MSNV: 25033587</option>
+                <option value="2105758">Nguyễn Thanh Bảo - MSNV: 2105758</option>
+                <option value="2211367">Trương Thanh Liêm - MSNV: 2211367</option>
+                <option value="23081035">Trần Văn Tiến - MSNV: 23081035</option>
+                <option value="0408008">Đặng Công Kính - MSNV: 0408008</option>
+                <option value="2403258">Lê Duy Lộc - MSNV: 2403258</option>
+                <option value="2209426">Nguyễn Ngọc Anh - MSNV: 2209426</option>
+                <option value="24121330">Lương Quang Nhường - MSNV: 24121330</option>
+                <option value="25092075">Võ Đức Khải - MSNV: 25092075</option>
+                <option value="24041053">Hồ Văn Danh - MSNV: 24041053</option>
+                <option value="1503591">Lê Quân Chí - MSNV: 1503591</option>
+                <option value="1604047">Phạm Viết Chính - MSNV: 1604047</option>
+                <option value="1907537">Võ Hồng Trị - MSNV: 1907537</option>
+                <option value="2403027">Nguyễn Châu Phi - MSNV: 2403027</option>
+                <option value="2103250">Võ Kim Nhiệm - MSNV: 2103250</option>
+                <option value="2103163">Nguyễn Văn Tấn - MSNV: 2103163</option>
+                <option value="1702077">Nguyễn Hoàng Linh - MSNV: 1702077</option>
+                <option value="1803022">Võ Văn Tài - MSNV: 1803022</option>
+                <option value="25034996">Nguyễn Hồng Hải - MSNV: 25034996</option>
+                <option value="2303700">Trần Văn Hồng - MSNV: 2303700</option>
+                <option value="1609319">Lương Ngọc Tuấn - MSNV: 1609319</option>
+                <option value="24031180">Phan Bình Trọng - MSNV: 24031180</option>
+                <option value="24122900">Nguyễn Trường Thịnh - MSNV: 24122900</option>
+                <option value="1501227">Đỗ Văn Đức - MSNV: 1501227</option>
+                <option value="2203987">Trần Hữu Phước - MSNV: 2203987</option>
+                <option value="1907648">Phan Thị Thuận - MSNV: 1907648</option>
+                <option value="1907649">Phạm Văn Lập - MSNV: 1907649</option>
+                <option value="2403496">Dương Công Đại - MSNV: 2403496</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label><i>🗓️</i> <span data-i18n="date_label">Ngày Chủ Nhật</span></label>
+            <input type="date" id="regDate" required>
+            <div class="hint" data-i18n="hint">Hệ thống đã tự động chọn ngày Chủ Nhật gần nhất.</div>
+        </div>
+
+        <button type="submit" id="submitBtn" class="submit-btn" data-i18n="submit_btn">Xác Nhận Gửi Thông Tin</button>
+    </form>
+</div>
+
+<script>
+    // ===== BỘ TỪ ĐIỂN ĐA NGÔN NGỮ =====
+    const translations = {
+        "vi": {
+            "title": "Đăng Ký Làm chủ Nhật",
+            "subtitle": "Vui lòng điền thông tin để phân công ca trực",
+            "employee_label": "Nhân viên đăng kí",
+            "search_placeholder": "-- Tìm theo tên hoặc MSNV --",
+            "date_label": "Ngày Chủ Nhật trực",
+            "hint": "Hệ thống đã tự động chọn ngày Chủ Nhật gần nhất.",
+            "submit_btn": "Xác Nhận Gửi Thông Tin",
+            "alert_empty": "Vui lòng chọn nhân viên!",
+            "alert_loading": "⏳ Đang lưu dữ liệu...",
+            "alert_success": "✅ Đã lưu đăng ký thành công cho:\n",
+            "alert_error": "❌ Lỗi! Không thể kết nối dữ liệu. Vui lòng thử lại.",
+            "confirm_msg": "Bạn có chắc chắn muốn đăng ký cho nhân viên:\n{name} - MSNV: {id}\nVào ngày: {date} không?",
+            "already_registered": "✅ Nhân viên {name} (MSNV: {id}) đã đăng ký thành công cho ngày {date} từ trước đó. Vui lòng không gửi lại!"
+        },
+        "la": {
+            "title": "ລົງທະບຽນເຮັດວຽກວັນອາທິດ",
+            "subtitle": "ກະລຸນາປ້ອນຂໍ້ມູນເພື່ອຈັດແບ່ງເວນ",
+            "employee_label": "ລາຍຊື່ພະນັກງານລົງທະບຽນ",
+            "search_placeholder": "-- ຄົ້ນຫາຊື່ ຫຼື ລະຫັດພະນັກງານ --",
+            "date_label": "ວັນອາທິດເຂົ້າເວນ",
+            "hint": "ລະບົບໄດ້ເລືອກວັນອາທິດທີ່ໃກ້ທີ່ສຸດອັດຕະໂນມັດ.",
+            "submit_btn": "ຢືນຢັນການສົ່ງຂໍ້ມູນ",
+            "alert_empty": "ກະລຸນາເລືອກພະນັກງານ!",
+            "alert_loading": "⏳ ກຳລັງບັນທຶກຂໍ້ມູນ...",
+            "alert_success": "✅ ບັນທຶກສຳເລັດສຳລັບ:\n",
+            "alert_error": "❌ ເກີດຂໍ້ຜິດພາດ! ບໍ່ສາມາດເຊື່ອມຕໍ່ຂໍ້ມູນໄດ້. ກະລຸນາລອງໃໝ່ອີກຄັ້ງ.",
+            "confirm_msg": "ທ່ານແນ່ໃຈບໍ່ວ່າຕ້ອງການລົງທະບຽນໃຫ້ພະນັກງານ:\n{name} - ລະຫັດ: {id}\nໃນວັນທີ: {date}?",
+            "already_registered": "✅ ພະນັກງານ {name} (ລະຫັດ: {id}) ໄດ້ລົງທະບຽນສຳເລັດສຳລັບວັນທີ {date} ແລ້ວ. ກະລຸນາຢ່າສົ່ງຊ້ຳ!"
+        }
+    };
+
+    let currentLang = "vi"; 
+
+    $(document).ready(function() {
+        
+        function initSelect2() {
+            if ($('#employeeSelect').hasClass("select2-hidden-accessible")) {
+                $('#employeeSelect').select2('destroy');
+            }
+
+            $('#employeeSelect').select2({
+                allowClear: true,
+                placeholder: translations[currentLang].search_placeholder,
+                templateResult: formatEmployeeOption,    
+                templateSelection: formatEmployeeSelection 
+            });
+        }
+
+        function formatEmployeeOption (employee) {
+            if (!employee.id) { return employee.text; }
+            var parts = employee.text.split(' - MSNV: ');
+            var name = parts[0];
+            var id = parts.length > 1 ? parts[1] : employee.id;
+            return $(
+                '<div class="employee-option">' +
+                    '<span class="employee-name">' + name + '</span>' +
+                    '<span class="employee-id-badge">MSNV: ' + id + '</span>' +
+                '</div>'
+            );
+        }
+
+        function formatEmployeeSelection (employee) {
+            if (!employee.id) { return employee.text; }
+            var parts = employee.text.split(' - MSNV: ');
+            var name = parts[0];
+            var id = parts.length > 1 ? parts[1] : employee.id;
+            return $(
+                '<span class="employee-selected">' +
+                    '<span class="name">' + name + '</span>' +
+                    '<span class="id-text">MSNV: ' + id + '</span>' +
+                '</span>'
+            );
+        }
+
+        initSelect2();
+
+        // XỬ LÝ ĐỔI NGÔN NGỮ
+        $('.btn-lang').on('click', function() {
+            $('.btn-lang').removeClass('active');
+            $(this).addClass('active');
+            
+            currentLang = $(this).data('lang');
+            
+            $('[data-i18n]').each(function() {
+                const key = $(this).data('i18n');
+                $(this).text(translations[currentLang][key]);
+            });
+
+            initSelect2();
+        });
+
+        // XỬ LÝ NGÀY CHỦ NHẬT
+        function getNextSunday() {
+            const today = new Date();
+            const dayOfWeek = today.getDay(); 
+            const diff = (dayOfWeek === 0) ? 0 : (7 - dayOfWeek);
+            const nextSunday = new Date(today);
+            nextSunday.setDate(today.getDate() + diff);
+            return nextSunday.toISOString().split('T')[0];
+        }
+
+        $('#regDate').val(getNextSunday());
+
+        // XỬ LÝ LƯU TRÚ (LOCAL STORAGE) NGĂN CHẶN SUBMIT LẠI
+        function checkAlreadyRegistered(employeeID, regDate) {
+            const key = `registered_sunday_${employeeID}_${regDate}`;
+            return localStorage.getItem(key) === "true";
+        }
+
+        function setRegistered(employeeID, regDate) {
+            const key = `registered_sunday_${employeeID}_${regDate}`;
+            localStorage.setItem(key, "true");
+        }
+
+        // XỬ LÝ SUBMIT FORM
+        $('#registrationForm').on('submit', function(e) {
+            e.preventDefault();
+            
+            const selectedText = $('#employeeSelect').find('option:selected').text();
+            if(!$('#employeeSelect').val()) {
+                alert(translations[currentLang].alert_empty);
+                return;
+            }
+
+            const fullName = selectedText.split(' - ')[0];
+            const employeeID = $('#employeeSelect').val();
+            const regDate = $('#regDate').val();
+            const submitBtn = $('#submitBtn');
+
+            // 1. Kiểm tra xem người này đã đăng ký cho ngày này chưa
+            if (checkAlreadyRegistered(employeeID, regDate)) {
+                let msg = translations[currentLang].already_registered
+                            .replace("{name}", fullName)
+                            .replace("{id}", employeeID)
+                            .replace("{date}", regDate);
+                alert(msg);
+                return; // Ngừng thực thi, không cho gửi
+            }
+
+            // 2. Hiện hộp thoại Xác nhận Tên và MSNV
+            let confirmMsg = translations[currentLang].confirm_msg
+                            .replace("{name}", fullName)
+                            .replace("{id}", employeeID)
+                            .replace("{date}", regDate);
+            
+            if (!confirm(confirmMsg)) {
+                return; // Nếu bấm Cancel thì huỷ gửi
+            }
+
+            const scriptURL = 'https://script.google.com/macros/s/AKfycbyOy7-X8NpOlhkYpJnI8xEmH90Y_Omhv9hvz2Pg_o4irUA1-g5204_g3uaKiykM8b2y/exec';
+
+            submitBtn.prop('disabled', true).text(translations[currentLang].alert_loading);
+
+            $.ajax({
+                url: scriptURL,
+                method: 'POST',
+                data: { "fullName": fullName, "employeeID": employeeID, "regDate": regDate },
+                success: function(response) {
+                    // Lưu cờ vào bộ nhớ trình duyệt để không cho gửi lại
+                    setRegistered(employeeID, regDate);
+
+                    alert(translations[currentLang].alert_success + fullName + ' (MSNV: ' + employeeID + ')');
+                    $('#registrationForm')[0].reset();
+                    $('#employeeSelect').val(null).trigger('change');
+                    $('#regDate').val(getNextSunday());
+                    submitBtn.prop('disabled', false).text(translations[currentLang].submit_btn);
+                },
+                error: function() {
+                    alert(translations[currentLang].alert_error);
+                    submitBtn.prop('disabled', false).text(translations[currentLang].submit_btn);
+                }
+            });
+        });
+    });
+</script>
+
+</body>
+</html>
